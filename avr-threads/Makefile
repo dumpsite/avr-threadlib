@@ -35,7 +35,7 @@ default:
 	cd src; $(MAKE)
 
 docs:
-	cd doc; $(MAKE)
+	cd doc; $(MAKE) final
 
 install:
 	cd src; $(MAKE) install
