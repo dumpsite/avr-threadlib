@@ -59,7 +59,7 @@ web-pages:
 	mkdir $@
 
 web-pages/threads.html: web-pages
-	cd web-pages; tex2page ../threads.ltx
+	tex2page threads.ltx
 
 .PHONY: final
 final: clean
