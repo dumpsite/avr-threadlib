@@ -81,7 +81,7 @@ avr5:
 avr5-debug:
 	mkdir $@
 
-clean:
+clean distclean:
 	-rm -rf avr2-debug avr2 avr3-debug avr3 avr5-debug avr5
 
 %.o : %.c ; $(CC) $(CFLAGS) -c -o $*.o $<

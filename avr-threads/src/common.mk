@@ -33,13 +33,16 @@
 
 CC=avr-gcc
 AR=avr-ar
-# FLAGS=-Wall -Werror
-FLAGS=-Wall
+FLAGS=-Wall -Werror
 LFLAGS=-Wl,-Map=$(<:.o=.map),--cref
 CRT=-lc -lm
 
-prefix = c:/WinAvr
-# prefix = /usr/local
+# If you use WinAvr, replace the prefix line below with the path to
+# WinAvr so the relevant files get installed in the right place, for
+# example:
+#   prefix = c:/WinAvr
+prefix = /usr/local
+
 target = avr
 prefix_avr = ${prefix}/${target}
 bindir = ${prefix_avr}/bin
@@ -58,19 +61,16 @@ endif
 ifeq ($(AVR_ARCH),2)
     PART = at90s8515
     FLAGS += -Os
-    CRT += -lhelper-s8515
     VPATH=..
 else
 ifeq ($(AVR_ARCH),3)
     PART = atmega103
     FLAGS += -O2
-    CRT += -lhelper-m103
     VPATH=..
 else
 ifeq ($(AVR_ARCH),5)
     PART = atmega128
     FLAGS += -Os
-    CRT += -lhelper-m128
     VPATH=..
 else
 ifdef AVR_ARCH 

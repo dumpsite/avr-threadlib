@@ -38,7 +38,8 @@ int main(void)
     avr_thread_init();
     sei();
     // Start new thread
-    avr_thread_start(&fn_context, fn, fn_stack, sizeof(fn_stack));
+    avr_thread_start(&fn_context,
+                     fn, fn_stack, sizeof(fn_stack));
 
     uint8_t state = 0;
     for (;;) {
