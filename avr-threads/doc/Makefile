@@ -65,6 +65,7 @@ web-pages/threads.html: web-pages
 final: clean
 	$(MAKE) -W threads.ltx all
 	$(MAKE) -W threads.ltx all
+	rm -f web-pages/*.tex web-pages/*.scm web-pages/*.idx web-pages/*.ilg web-pages/*.ind web-pages/*.hlog
 
 threads.preview: threads.pdf
 
