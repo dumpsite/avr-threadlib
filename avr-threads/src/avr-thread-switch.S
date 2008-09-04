@@ -4,37 +4,38 @@
  *
  * Forced task switch.
  *
- * $Log$
- * Revision 1.2  2008-09-04 00:22:41  dean
- * Files updated due to CVS date format change.
+ * Copyright 2000, 2001, 2002, 2003, 2004 Dean Ferreyra
  *
- * Revision 1.1  2005/03/25 04:03:51  dean
- * Add files
- *
- * Revision 1.7  2004/03/13 02:53:23  dean
- * More conservative uart code with regards to cli()/sei().
- *
- * Revision 1.6  2004/02/28 19:15:45  dean
- * Fix sleep(0) bug in ISR code.
- *
- * Revision 1.5  2003/10/10 19:31:32  dean
- * dos2unix
- *
- * Revision 1.4  2002/08/23 02:19:19  dean
- * Rename global names to avoid clashes.
- * Updated to work with new avr-gcc I/O.
- *
- * Revision 1.3  2001/04/05 07:55:23  dean
- * Uses rcall with smaller chips.
- *
- * Revision 1.2  2001/04/05 06:26:39  dean
- * Added DEBUG_STACK_USAGE.
- * Disables interrupts when changing running and stack.
- *
- * Revision 1.1  2001/04/02 21:46:11  dean
- * Initial revision
- *
+ * $Id$
+ * Dean Ferreyra
  */
+
+/*
+This file is part of AVR-THREADS.
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; see the file COPYING.LIB.  If not,
+write to the Free Software Foundation, Inc., 59 Temple Place, Suite
+330, Boston, MA 02111-1307  USA
+
+Contact information:
+
+Dean Ferreyra
+12902 Malena Drive
+Santa Ana, CA 92705-1102  USA
+
+dean@octw.com
+*/
 
 #include <avr/io.h>
 #include "avr-thread-asm.h"
