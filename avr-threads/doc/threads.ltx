@@ -5,20 +5,25 @@
 \usepackage{alltt}
 \usepackage{xspace}
 
-\title{\AVRThreadsLibrary}
-\author{Dean Ferreyra\\\mailto{dferreyra@igc.org}}
-
 % tex2page definitions
 
-\imgpreamble 
-  \usepackage{xspace}
+\ifx\shipout\UnDeFiNeD % HTML only 
+  % Choose png format for images
+  \def\TZPimageformat{png}
+  \imgpreamble 
+    \usepackage{xspace}
+  
+    \let\LaTeXdocument\document 
+    \def\document{\LaTeXdocument\LARGE} 
+    \def\sub#1{_#1}
+    \def\subrm#1{_\mathrm{#1}}
+  \endimgpreamble 
+\else
+  \newcommand{\mailto}[1]{#1}
+\fi
 
-  \let\LaTeXdocument\document 
-  \def\document{\LaTeXdocument\LARGE} 
-  \def\sub#1{_#1}
-  \def\subrm#1{_\mathrm{#1}}
-\endimgpreamble 
-% \htmlimageformat{png}
+\title{\AVRThreadsLibrary}
+\author{Dean Ferreyra\\\mailto{dferreyra@igc.org}}
 
 % Reset underscore to be a regular character.
 % Use \sub{} and \subrm{} to use math subscripting.
@@ -49,8 +54,8 @@
 % Function entries
 % Define (and re-define) \thisfunction to refer to the latest function in question
 \newcommand{\thisfunction}{\emph{unknown function}}
-\newcommand{\function}[3]{\subsubsection*{\lit{#1}\hfill\emph{#2}\tag{#3}{\lit{#3}}\litindex{#3}}\renewcommand{\thisfunction}{\lit{#3}\xspace}}
-\newcommand{\structure}[3]{\subsubsection*{\lit{#1}\hfill\emph{#2}\tag{#3}{\lit{#3}}\litindex{#3}}\renewcommand{\thisfunction}{\lit{#3}\xspace}}
+\newcommand{\function}[3]{\subsubsection*{\lit{#1}\hfill\emph{#2}\xrtag{#3}{\lit{#3}}\litindex{#3}}\renewcommand{\thisfunction}{\lit{#3}\xspace}}
+\newcommand{\structure}[3]{\subsubsection*{\lit{#1}\hfill\emph{#2}\xrtag{#3}{\lit{#3}}\litindex{#3}}\renewcommand{\thisfunction}{\lit{#3}\xspace}}
 \newcommand{\thisstructure}{\thisfunction}
 
 % Some textual short-cuts
@@ -463,6 +468,8 @@ ATmega128.
 
 \verbatiminput{start-thread.c}
 
+% Place index on its own page
+\newpage
 \printindex
 
 \end{document}
