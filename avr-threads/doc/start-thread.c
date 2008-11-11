@@ -1,7 +1,6 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include <avr/signal.h>
 #include <avr-thread.h>
 
 // Thread stack
@@ -24,15 +23,15 @@ void fn(void)
 int main(void)
 {
     // Setup port B as all output.
-    outp(0xff, PORTB);
-    outp(0xff, DDRB);
+    PORTB = 0xff;
+    DDRB = 0xff;
 
     // Setup timer 2 mode.  Include reset on overflow bit.
     // Approximately 1.008 kHz for 4 MHz crystal.
-    outp(BV(WGM21) | BV(CS21) | BV(CS20), TCCR2);
-    outp(62, OCR2);
-    outp(0, TCNT2);
-    sbi(TIMSK, OCIE2);
+    TCCR2 = _BV(WGM21) | _BV(CS21) | _BV(CS20);
+    OCR2 = 62;
+    TCNT2 = 0;
+    TIMSK |= _BV(OCIE2);
 
     // Initialize avr-thread library.
     avr_thread_init();
@@ -50,6 +49,8 @@ int main(void)
         state = ! state;
     }
 }
+
+uint32_t switch_count = 0;
 
 // Task switcher
 void SIG_OUTPUT_COMPARE2(void) __attribute__((naked));
