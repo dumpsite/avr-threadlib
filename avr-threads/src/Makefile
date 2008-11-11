@@ -40,21 +40,21 @@ install: avr5-lib-install avr3-lib-install avr2-lib-install
 
 avr2-lib: avr2-debug avr2
 	cp common.mk avr2-debug
-	cd avr2-debug; $(MAKE) -f ../makefile AVR_ARCH=2 DEBUG_STACK_USAGE=1 libavr-thread-debug.a
+	cd avr2-debug; $(MAKE) -f ../Makefile AVR_ARCH=2 DEBUG_STACK_USAGE=1 libavr-thread-debug.a
 	cp common.mk avr2
-	cd avr2; $(MAKE) -f ../makefile AVR_ARCH=2 DEBUG_STACK_USAGE=0 libavr-thread.a
+	cd avr2; $(MAKE) -f ../Makefile AVR_ARCH=2 DEBUG_STACK_USAGE=0 libavr-thread.a
 
 avr3-lib: avr3-debug avr3
 	cp common.mk avr3-debug
-	cd avr3-debug; $(MAKE) -f ../makefile AVR_ARCH=3 DEBUG_STACK_USAGE=1 libavr-thread-debug.a
+	cd avr3-debug; $(MAKE) -f ../Makefile AVR_ARCH=3 DEBUG_STACK_USAGE=1 libavr-thread-debug.a
 	cp common.mk avr3
-	cd avr3; $(MAKE) -f ../makefile AVR_ARCH=3 DEBUG_STACK_USAGE=0 libavr-thread.a
+	cd avr3; $(MAKE) -f ../Makefile AVR_ARCH=3 DEBUG_STACK_USAGE=0 libavr-thread.a
 
 avr5-lib: avr5-debug avr5
 	cp common.mk avr5-debug
-	cd avr5-debug; $(MAKE) -f ../makefile AVR_ARCH=5 DEBUG_STACK_USAGE=1 libavr-thread-debug.a
+	cd avr5-debug; $(MAKE) -f ../Makefile AVR_ARCH=5 DEBUG_STACK_USAGE=1 libavr-thread-debug.a
 	cp common.mk avr5
-	cd avr5; $(MAKE) -f ../makefile AVR_ARCH=5 DEBUG_STACK_USAGE=0 libavr-thread.a
+	cd avr5; $(MAKE) -f ../Makefile AVR_ARCH=5 DEBUG_STACK_USAGE=0 libavr-thread.a
 
 avr2-lib-install: avr2-lib
 	install -m644 avr2-debug/libavr-thread-debug.a ${libdir}
