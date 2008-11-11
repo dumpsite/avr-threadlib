@@ -223,10 +223,10 @@ crystal:
     /* ... */
     /* Setup TIMER2 mode.  Include reset on overflow bit. */
     /* Approximately 1 kHz for a 16 MHz crystal. */
-    outp(BV(WGM21) | BV(CS21) | BV(CS20), TCCR2);
-    outp(250, OCR2);
-    outp(0, TCNT2);
-    sbi(TIMSK, OCIE2);
+    TCCR2 = _BV(WGM21) | _BV(CS21) | _BV(CS20);
+    OCR2 = 250;
+    TCNT2 = 0;
+    TIMSK |= _BV(OCIE2);
     /* Initialize library. */
     avr_thread_init();
     /* Enable global interrupts to start preemptive task switching */
