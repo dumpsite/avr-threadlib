@@ -37,10 +37,11 @@ FLAGS=-Wall -Werror
 LFLAGS=-Wl,-Map=$(<:.o=.map),--cref
 CRT=-lc -lm
 
-# If you use WinAvr, replace the prefix line below with the path to
-# WinAvr so the relevant files get installed in the right place, for
-# example:
-#   prefix = c:/WinAvr
+# Replace the prefix line below with the appropriate path to the AVR
+# toolset.  Here are some examples:
+#   prefix = /usr
+#   prefix = /usr/local
+#   prefix = c:/WinAVR
 prefix = /usr/local
 
 target = avr
