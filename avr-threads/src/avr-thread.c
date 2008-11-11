@@ -37,6 +37,7 @@ dean@octw.com
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <compat/deprecated.h>
 #include <stdlib.h>
 #include <string.h>
 #include "avr-thread-asm.h"
@@ -130,7 +131,7 @@ void avr_thread_start_at(avr_thread_context* context,
 
     // Setup SREG with global interrupts enabled.
     *(stack + stack_size - RETURN_SIZE - REGISTERS_SIZE - SREG_SIZE) =
-	inp(SREG) | BV(SREG_I);
+	inp(SREG) | _BV(SREG_I);
 }
 
 void avr_thread_tick_only(void)

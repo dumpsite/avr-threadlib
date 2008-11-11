@@ -58,7 +58,7 @@ avr_thread_switch:
 
 	/* Save SREG. */
 	in XL,_SFR_IO_ADDR(SREG)
-	sbr XL,BV(SREG_I)
+	sbr XL,_BV(SREG_I)
 	push XL
 
         /* Save current stack pointer back to current context. */

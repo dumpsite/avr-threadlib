@@ -53,7 +53,7 @@ avr_thread_isr_start:
 	/* Because return to isr is in the way, can't push Z. */
 	PUSH_ALL_BUT_Z
 
-	/* Save (SREG | BV(SREG_I))
+	/* Save (SREG | _BV(SREG_I))
          *
          * The reason for saving the SREG with global interrupts
          * enabled is that this thread was interrupted by an ISR,
@@ -62,7 +62,7 @@ avr_thread_isr_start:
          */
         
 	in XL,_SFR_IO_ADDR(SREG)
-        sbr XL,BV(SREG_I)
+        sbr XL,_BV(SREG_I)
 	push XL
 
         /* Save current stack pointer back to current context. */
