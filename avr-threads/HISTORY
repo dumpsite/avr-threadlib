@@ -1,4 +1,4 @@
-2008-11-11 PUBLISH_V1_3
+2008-11-11 PUBLISH_THREADS_V1_3
   Bring library in sync with my production version.
   Fix case on file names for case-sensitive file systems.
   Use _BV() instead of BV().
