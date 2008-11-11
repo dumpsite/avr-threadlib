@@ -4,5 +4,6 @@
   Use _BV() instead of BV().
   Add includes for <compat/deprecated.h>.
   dos2unix some files.
+  Fix example code in documentation.
 
   Thanks to Péter G. Marczis for pointing out the bugs with file case under Linux, plus the anachronistic uses of BV(), inp(), and outp().  (I punted on inp() and outp() by using <compat/deprecated.h>.)
