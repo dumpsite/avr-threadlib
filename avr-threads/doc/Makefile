@@ -32,7 +32,7 @@
 # dean@octw.com
 
 %.preview: %.pdf
-	AcroRd32 `cygpath -aw $*.pdf` &
+	explorer `cygpath -aw $*.pdf` &
 
 %.pdf: %.ps
 	gs -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -r600 -sOutputFile=$*.pdf $*.ps
@@ -73,7 +73,7 @@ threads.pdf: threads.ps
 
 threads.prn.ps: threads.dvi
 
-threads.dvi: threads.ltx
+threads.dvi: threads.ltx start-thread.c
 
 spell:
 	aspell --mode=tex -l < threads.ltx |sort |uniq
