@@ -51,8 +51,8 @@
 % Function entries
 % Define (and re-define) \thisfunction to refer to the latest function in question
 \newcommand{\thisfunction}{\emph{unknown function}}
-\newcommand{\function}[3]{\subsubsection*{\lit{#1}\hfill\emph{#2}\xrtag{#3}{\lit{#3}}\litindex{#3}}\renewcommand{\thisfunction}{\lit{#3}\xspace}}
-\newcommand{\structure}[3]{\subsubsection*{\lit{#1}\hfill\emph{#2}\xrtag{#3}{\lit{#3}}\litindex{#3}}\renewcommand{\thisfunction}{\lit{#3}\xspace}}
+\newcommand{\function}[3]{\subsubsection*{\lit{#1}\hspace*{\fill}\hbox{\emph{#2}}\xrtag{#3}{\lit{#3}}\litindex{#3}}\renewcommand{\thisfunction}{\lit{#3}\xspace}}
+\newcommand{\structure}[3]{\subsubsection*{\lit{#1}\hspace*{\fill}\hbox{\emph{#2}}\xrtag{#3}{\lit{#3}}\litindex{#3}}\renewcommand{\thisfunction}{\lit{#3}\xspace}}
 \newcommand{\thisstructure}{\thisfunction}
 
 % Some textual short-cuts
