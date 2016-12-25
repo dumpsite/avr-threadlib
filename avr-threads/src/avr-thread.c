@@ -52,13 +52,19 @@ volatile uint8_t avr_thread_disabled;
 avr_thread_context* avr_thread_active;
 
 uint8_t avr_thread_idle_stack[128] __attribute__((weak));
+
+#include <avr/sleep.h>
 void avr_thread_idle(void)
 {
-    // If we're idling, no need to try to task switch
-    // because there's no one to task switch to.
-    // Let the isr do the switch.
-    for (;;)
-	;
+    set_sleep_mode(SLEEP_MODE_IDLE);
+    while (1) {
+        sleep_enable();
+
+        sleep_cpu();
+
+        sleep_disable();
+        set_sleep_mode(SLEEP_MODE_IDLE);
+    }
 }
 
 void avr_thread_init(void)
