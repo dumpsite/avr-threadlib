@@ -69,6 +69,11 @@ ifeq ($(AVR_ARCH),3)
     FLAGS += -O2
     VPATH=..
 else
+ifeq ($(AVR_ARCH),4)
+    PART = atmega8
+    FLAGS += -Os
+    VPATH=..
+else
 ifeq ($(AVR_ARCH),5)
     PART = atmega128
     FLAGS += -Os
@@ -76,6 +81,7 @@ ifeq ($(AVR_ARCH),5)
 else
 ifdef AVR_ARCH 
     $(error Unsupported architecture: $(AVR_ARCH))
+endif
 endif
 endif
 endif
