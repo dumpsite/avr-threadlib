@@ -54,6 +54,7 @@ avr_thread_context* avr_thread_active;
 uint8_t avr_thread_idle_stack[128] __attribute__((weak));
 
 #include <avr/sleep.h>
+void avr_thread_idle(void) __attribute__((weak));
 void avr_thread_idle(void)
 {
     set_sleep_mode(SLEEP_MODE_IDLE);
