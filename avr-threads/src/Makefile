@@ -33,9 +33,9 @@
 
 include common.mk
 
-all: avr5-lib avr4-lib avr3-lib avr2-lib
+all: avr51-lib avr5-lib avr4-lib avr3-lib avr2-lib
 
-install: avr5-lib-install avr4-lib-install avr3-lib-install avr2-lib-install
+install: avr51-lib-install avr5-lib-install avr4-lib-install avr3-lib-install avr2-lib-install
 	install -m644 avr-thread.h ${includedir}
 
 avr2-lib: avr2-debug avr2
@@ -62,6 +62,12 @@ avr5-lib: avr5-debug avr5
 	cp common.mk avr5
 	cd avr5; $(MAKE) -f ../Makefile AVR_ARCH=5 DEBUG_STACK_USAGE=0 libavr-thread.a
 
+avr51-lib: avr51-debug avr51
+	cp common.mk avr51-debug
+	cd avr51-debug; $(MAKE) -f ../Makefile AVR_ARCH=51 DEBUG_STACK_USAGE=1 libavr-thread-debug.a
+	cp common.mk avr51
+	cd avr51; $(MAKE) -f ../Makefile AVR_ARCH=51 DEBUG_STACK_USAGE=0 libavr-thread.a
+
 avr2-lib-install: avr2-lib
 	install -m644 avr2-debug/libavr-thread-debug.a ${libdir}
 	install -m644 avr2/libavr-thread.a ${libdir}
@@ -77,6 +83,10 @@ avr4-lib-install: avr4-lib
 avr5-lib-install: avr5-lib
 	install -m644 avr5-debug/libavr-thread-debug.a ${libdir}/avr5
 	install -m644 avr5/libavr-thread.a ${libdir}/avr5
+
+avr51-lib-install: avr51-lib
+	install -m644 avr51-debug/libavr-thread-debug.a ${libdir}/avr51
+	install -m644 avr51/libavr-thread.a ${libdir}/avr51
 
 avr2:
 	mkdir $@
@@ -94,9 +104,13 @@ avr5:
 	mkdir $@
 avr5-debug:
 	mkdir $@
+avr51:
+	mkdir $@
+avr51-debug:
+	mkdir $@
 
 clean distclean:
-	-rm -rf avr2-debug avr2 avr3-debug avr3 avr4-debug avr4 avr5-debug avr5
+	-rm -rf avr2-debug avr2 avr3-debug avr3 avr4-debug avr4 avr5-debug avr5 avr51-debug avr51
 
 %.o : %.c ; $(CC) $(CFLAGS) -c -o $*.o $<
 
