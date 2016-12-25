@@ -159,7 +159,7 @@ avr_thread_isr_end:
 	in tmp_reg,_SFR_IO_ADDR(SREG)
         push tmp_reg
 	cli
-#if __AVR_ARCH__ == 3 || __AVR_ARCH__ == 5
+#if __AVR_ARCH__ == 3 || __AVR_ARCH__ == 5 || __AVR_ARCH__ == 51
 	call avr_thread_find_next
 #else
 	rcall avr_thread_find_next
@@ -186,7 +186,7 @@ avr_thread_isr_end:
 	in tmp_reg,_SFR_IO_ADDR(SREG)
         push tmp_reg
 	cli
-#if __AVR_ARCH__ == 3 || __AVR_ARCH__ == 5
+#if __AVR_ARCH__ == 3 || __AVR_ARCH__ == 5 || __AVR_ARCH__ == 51
 	call avr_thread_tick_only
 #else
 	rcall avr_thread_tick_only
