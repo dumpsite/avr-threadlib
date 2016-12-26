@@ -141,8 +141,24 @@ void avr_thread_start_at(avr_thread_context* context,
 	inp(SREG) | _BV(SREG_I);
 }
 
+void avr_thread_tick_only_Ex(const uint8_t ticks)
+{
+    volatile avr_thread_context* task = avr_thread_active;
+    do {
+	task = task->next;
+	if (task->state & ats_tick) {
+	  if (task->timeout > ticks) {
+	    task->timeout-=ticks;
+	  } else {
+	    task->timeout=0;
+	    task->state &= ~(ats_wait | ats_tick);
+	  }
+	}
+    } while (task->next != avr_thread_active->next);
+}
 void avr_thread_tick_only(void)
 {
+  /* =avr_thread_tick_only_Ex(1); */
     volatile avr_thread_context* task = avr_thread_active;
     do {
 	task = task->next;
