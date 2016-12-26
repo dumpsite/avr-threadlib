@@ -46,8 +46,8 @@ dean@octw.com
 void avr_thread_stop(void)
 {
     avr_thread_disable();
-    uint8_t sreg = SREG;
-    cli();
+    avr_thread_preempt_type(sreg);
+    avr_thread_preempt_disable(sreg);
     volatile avr_thread_context* prev_task =
         avr_thread_active;
     volatile avr_thread_context* task = prev_task->next;
@@ -60,7 +60,7 @@ void avr_thread_stop(void)
 	prev_task = task;
 	task = task->next;
     }
-    SREG = sreg;
+    avr_thread_preempt_enable(sreg);
     avr_thread_switch();
 }
 

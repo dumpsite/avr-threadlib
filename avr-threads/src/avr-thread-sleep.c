@@ -53,10 +53,10 @@ void avr_thread_sleep(uint16_t ticks)
 	
 	avr_thread_disable();
         // Transfer of byte needs no cli() protection...
-        uint8_t sreg = SREG;
-        cli();
+        avr_thread_preempt_type(sreg);
+	avr_thread_preempt_disable(sreg);
 	avr_thread_active->state = ats_wait | ats_tick;
-        SREG = sreg;
+        avr_thread_preempt_enable(sreg);
 	avr_thread_switch();
     }
 }

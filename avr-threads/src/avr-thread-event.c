@@ -47,8 +47,8 @@ void avr_thread_event_set_wake_one(volatile avr_thread_event* event)
 {
     avr_thread_disable();
 
-    uint8_t sreg = SREG;
-    cli();
+    avr_thread_preempt_type(sreg);
+    avr_thread_preempt_disable(sreg);
 
     event->state = 1;
 
@@ -68,7 +68,7 @@ void avr_thread_event_set_wake_one(volatile avr_thread_event* event)
 	}
 	task = (avr_thread_context*)task->next_waiting;
     }
-    SREG = sreg;
+    avr_thread_preempt_enable(sreg);
     avr_thread_enable();
 }
 
@@ -76,8 +76,8 @@ void avr_thread_event_set_wake_all(volatile avr_thread_event* event)
 {
     avr_thread_disable();
 
-    uint8_t sreg = SREG;
-    cli();
+    avr_thread_preempt_type(sreg);
+    avr_thread_preempt_disable(sreg);
 
     event->state = 1;
 
@@ -96,17 +96,17 @@ void avr_thread_event_set_wake_all(volatile avr_thread_event* event)
 	}
 	task = (avr_thread_context*)task->next_waiting;
     }
-    SREG = sreg;
+    avr_thread_preempt_enable(sreg);
     avr_thread_enable();
 }
 
 void avr_thread_event_clear(volatile avr_thread_event* event)
 {
     avr_thread_disable();
-    uint8_t sreg = SREG;
-    cli();
+    avr_thread_preempt_type(sreg);
+    avr_thread_preempt_disable(sreg);
     event->state = 0;
-    SREG = sreg;
+    avr_thread_preempt_enable(sreg);
     avr_thread_enable();
 }
 
@@ -115,11 +115,11 @@ uint8_t avr_thread_event_wait(volatile avr_thread_event* event,
 {
     avr_thread_disable();
 
-    uint8_t sreg = SREG;
-    cli();
+    avr_thread_preempt_type(sreg);
+    avr_thread_preempt_disable(sreg);
 
     if (event->state) {
-        SREG = sreg;
+        avr_thread_preempt_enable(sreg);
 	avr_thread_enable();
 	return 1;
     } else {
@@ -138,21 +138,20 @@ uint8_t avr_thread_event_wait(volatile avr_thread_event* event,
 	    avr_thread_active->timeout = ticks;
 	    avr_thread_active->state = ats_wait | ats_tick;
 	}
-        SREG = sreg;
+        avr_thread_preempt_enable(sreg);
 	avr_thread_switch();
 
 	// Take ourselves out of the wait queue.
 	avr_thread_disable();
 
-        sreg = SREG;
-        cli();
+        avr_thread_preempt_disable(sreg);
 
 	avr_thread_active->prev_waiting->next_waiting =
 	    avr_thread_active->next_waiting;
 	avr_thread_active->next_waiting->prev_waiting =
 	    avr_thread_active->prev_waiting;
 
-        SREG = sreg;
+        avr_thread_preempt_enable(sreg);
 	avr_thread_enable();
 
 	// At this point, have we gained ownership?
@@ -165,12 +164,12 @@ uint8_t avr_thread_event_wait_and_clear(volatile avr_thread_event* event,
 {
     avr_thread_disable();
 
-    uint8_t sreg = SREG;
-    cli();
+    avr_thread_preempt_type(sreg);
+    avr_thread_preempt_disable(sreg);
 
     if (event->state) {
 	event->state = 0;
-        SREG = sreg;
+        avr_thread_preempt_enable(sreg);
 	avr_thread_enable();
 	return 1;
     } else {
@@ -189,18 +188,17 @@ uint8_t avr_thread_event_wait_and_clear(volatile avr_thread_event* event,
 	    avr_thread_active->timeout = ticks;
 	    avr_thread_active->state = ats_wait | ats_clear | ats_tick;
 	}
-        SREG = sreg;
+        avr_thread_preempt_enable(sreg);
 	avr_thread_switch();
 
 	// Take ourselves out of the wait queue.
 	avr_thread_disable();
-        sreg = SREG;
-        cli();
+        avr_thread_preempt_disable(sreg);
 	avr_thread_active->prev_waiting->next_waiting =
 	    avr_thread_active->next_waiting;
 	avr_thread_active->next_waiting->prev_waiting =
 	    avr_thread_active->prev_waiting;
-        SREG = sreg;
+        avr_thread_preempt_enable(sreg);
 	avr_thread_enable();
 
 	// At this point, have we gained ownership?

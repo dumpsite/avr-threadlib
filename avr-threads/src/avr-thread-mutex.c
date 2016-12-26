@@ -48,20 +48,20 @@ uint8_t avr_thread_mutex_gain(volatile avr_thread_mutex* mutex,
 {
     avr_thread_disable();
 
-    uint8_t sreg = SREG;
-    cli();
+    avr_thread_preempt_type(sreg);
+    avr_thread_preempt_disable(sreg);
 
     if (! mutex->lock_count) {
 	// Take ownership.
 	mutex->owner = avr_thread_active;
 	mutex->lock_count = 1;
-        SREG = sreg;
+        avr_thread_preempt_enable(sreg);
 	avr_thread_enable();
 	return 1;
     } else if (mutex->owner == avr_thread_active) {
 	// Already owned by self.
 	++mutex->lock_count;
-        SREG = sreg;
+        avr_thread_preempt_enable(sreg);
 	avr_thread_enable();
 	return 1;
     } else {
@@ -80,7 +80,7 @@ uint8_t avr_thread_mutex_gain(volatile avr_thread_mutex* mutex,
 	    avr_thread_active->timeout = ticks;
 	    avr_thread_active->state = ats_wait | ats_tick;
 	}
-        SREG = sreg;
+        avr_thread_preempt_enable(sreg);
 	avr_thread_switch();
 	// At this point, have we gained ownership?
 	return avr_thread_active->waiting_for == 0;
@@ -91,16 +91,16 @@ void avr_thread_mutex_release(volatile avr_thread_mutex* mutex)
 {
     avr_thread_disable();
 
-    uint8_t sreg = SREG;
-    cli();
+    avr_thread_preempt_type(sreg);
+    avr_thread_preempt_disable(sreg);
 
     if (mutex->owner != avr_thread_active) {
-        SREG = sreg;
+        avr_thread_preempt_enable(sreg);
 	avr_thread_enable();
 	return;
     } else {
 	if (--mutex->lock_count) {
-            SREG = sreg;
+            avr_thread_preempt_enable(sreg);
 	    avr_thread_enable();
 	    return;
 	} else {
@@ -121,13 +121,13 @@ void avr_thread_mutex_release(volatile avr_thread_mutex* mutex)
                         task->next_waiting;
                     task->next_waiting->prev_waiting =
                         task->prev_waiting;
-                    SREG = sreg;
+                    avr_thread_preempt_enable(sreg);
 		    avr_thread_enable();
 		    return;
 		}
 		task = (avr_thread_context*)task->next_waiting;
 	    }
-            SREG = sreg;
+            avr_thread_preempt_enable(sreg);
 	    // Give up ownership.
 	    mutex->owner = 0;
 	    avr_thread_enable();

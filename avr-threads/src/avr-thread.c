@@ -96,11 +96,11 @@ void avr_thread_start(avr_thread_context* context,
 		      uint16_t stack_size)
 {
     avr_thread_start_at(context, fn, stack, stack_size);
-    uint8_t sreg = SREG;
-    cli();
+    avr_thread_preempt_type(sreg);
+    avr_thread_preempt_disable(sreg);
     context->next = avr_thread_active->next;
     avr_thread_active->next = context;
-    SREG = sreg;
+    avr_thread_preempt_enable(sreg);
 }
 
 void avr_thread_start_at(avr_thread_context* context,

@@ -40,6 +40,23 @@ dean@octw.com
 
 #include <inttypes.h>
 
+
+/*
+ * avr_thread preemtion macros
+ * These macros are used to switch on and off preemtion
+ * Please also consider macros in "avr-thread-def.h"
+ */
+#ifndef avr_thread_preempt_type
+#	define avr_thread_preempt_type(name)		uint8_t name
+#endif
+#ifndef avr_thread_preempt_disable
+#	define avr_thread_preempt_disable(param)	{param=SREG; cli();}
+#endif
+#ifndef avr_thread_preempt_enable
+#	define avr_thread_preempt_enable(param)		SREG=param
+#endif
+
+
 /*
  * avr_thread_context
  *
@@ -93,18 +110,18 @@ static inline avr_thread_context* avr_thread_running(void)
 
 static inline void avr_thread_enable(void)
 {
-    uint8_t sreg = SREG;
-    cli();
+    avr_thread_preempt_type(sreg);
+    avr_thread_preempt_disable(sreg);
     avr_thread_disabled--;
-    SREG = sreg;
+    avr_thread_preempt_enable(sreg);
 }
 
 static __inline__ void avr_thread_disable(void)
 {
-    uint8_t sreg = SREG;
-    cli();
+    avr_thread_preempt_type(sreg);
+    avr_thread_preempt_disable(sreg);
     avr_thread_disabled++;
-    SREG = sreg;
+    avr_thread_preempt_enable(sreg);
 }
 
 /*

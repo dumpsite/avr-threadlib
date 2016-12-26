@@ -43,6 +43,13 @@ dean@octw.com
 
 #include "context-offsets.h"
 
+#ifndef PREEMPT_DISABLE
+#	define PREEMPT_DISABLE	cli
+#endif
+#ifndef PREEMPT_ENABLE
+#	define PREEMPT_ENABLE	sei
+#endif
+
 #define PUSH_ALL   \
 	push r31 $ \
 	push r30 $ \
